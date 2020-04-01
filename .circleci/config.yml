@@ -13,9 +13,6 @@ jobs:
       branches:
         only: master
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "9b:31:1a:df:0e:68:d6:47:16:31:14:d9:48:13:9b:36"
       - checkout
       - restore_cache:
           keys:
