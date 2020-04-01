@@ -19,9 +19,9 @@ const ReadMore = ({value, length}: Props) => {
             {isFull ? value : value.slice(0, defaultLength)}
 
             <div className='text-right'>
-                <a onClick={() => toggle(!isFull)} className='btn btn-link'>
+                <button onClick={() => toggle(!isFull)} className='btn btn-link'>
                     {isFull ? 'See less' : 'See more'}
-                </a>
+                </button>
             </div>
         </div>
     );

@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import { BrowserRouter } from "react-router-dom";
 import { PageType } from "./types/page";
 import AppRouter from './router/AppRouter';

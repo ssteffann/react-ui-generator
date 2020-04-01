@@ -6,7 +6,7 @@ type Props = {
 
 const Image = ({ value }: Props) => {
     return (
-        <img src={value} alt="image" className="rounded img-thumbnail" />
+        <img src={value} alt="thumbnail" className="rounded img-thumbnail" />
     );
 };
 

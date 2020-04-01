@@ -9,7 +9,7 @@ if [ $CIRCLE_BRANCH == $SOURCE_BRANCH ]; then
               git rm -rf .
               cd ..
 
-              npm run build
+              yarn build
 
               cp -a build/. out/.
 

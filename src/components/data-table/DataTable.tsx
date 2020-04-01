@@ -14,21 +14,22 @@ const DataTable = ({tableData}: Props) => {
     const [isLoading, setLoading] = useState(false);
     const [data, setData] = useState([]);
 
-    const fetchData = async () => {
-        try {
-            setLoading(true);
-
-            const response = await getData(apiEndpoint);
-
-            setData(response);
-            setLoading(false);
-        } catch (e) {
-            setLoading(false);
-            console.error(e)
-        }
-    };
 
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+
+                const response = await getData(apiEndpoint);
+
+                setData(response);
+                setLoading(false);
+            } catch (e) {
+                setLoading(false);
+                console.error(e)
+            }
+        };
+
         fetchData();
     }, [apiEndpoint]);
 

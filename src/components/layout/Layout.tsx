@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {PageType} from "../../types/page";
 import {NavLink} from "react-router-dom";
 
