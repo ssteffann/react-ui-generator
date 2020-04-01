@@ -27,30 +27,21 @@ jobs:
             - node_modules
           key: dependencies-
 
+      - run:
+          name: Build Application
+          command: yarn build
 
-      - deploy:
-          name: Deploy
+      - add_ssh_keys:
+          fingerprints:
+            - "73:ba:91:9a:31:bb:37:d7:ca:cc:ae:e2:ad:80:44:9a"
+      - run:
+          name: Install and configure dependencies
           command: |
-            if [ $CIRCLE_BRANCH == $SOURCE_BRANCH ]; then
-              git config --global user.email $GH_EMAIL
-              git config --global user.name $GH_NAME
+            npm install -g --silent gh-pages@2.0.1
+            git config --global user.email $GH_EMAIL
+            git config --global user.name $GH_NAME
 
-              git clone $CIRCLE_REPOSITORY_URL out
+      - run:
+          name: Deploy docs to gh-pages branch
+          command: gh-pages --dotfiles --message "[skip ci] Updates" --dist build/
 
-              cd out
-              git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
-              git rm -rf .
-              cd ..
-
-              yarn build
-
-              cp -a build/. out/.
-
-              mkdir -p out/.circleci && cp -a .circleci/. out/.circleci/.
-              cd out
-
-              git add -A
-              git commit -m "Automated deployment to GitHub Pages: ${CIRCLE_SHA1}" --allow-empty
-
-              git push origin $TARGET_BRANCH
-            fi
