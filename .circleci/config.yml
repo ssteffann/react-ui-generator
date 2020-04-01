@@ -36,6 +36,9 @@ jobs:
           name: Deploy
           command: |
             if [ $CIRCLE_BRANCH == $SOURCE_BRANCH ]; then
+              git config --global user.email "builds@circleci.com"
+              git config --global user.name "CircleCI"
+
               yarn build
 
               cp -r build/. docs/.
