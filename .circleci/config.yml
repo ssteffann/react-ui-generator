@@ -36,8 +36,7 @@ jobs:
             - "73:ba:91:9a:31:bb:37:d7:ca:cc:ae:e2:ad:80:44:9a"
       - run:
           name: Install and configure dependencies
-          command: |
-            npm install -g --silent gh-pages@2.0.1
+          command: npm install -g --silent gh-pages@2.0.1
 
       - run:
           name: Deploy docs to gh-pages branch
