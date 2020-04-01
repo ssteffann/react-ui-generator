@@ -1,17 +1,38 @@
-version: 2.1
-orbs:
-  node: circleci/node@1.1.6
+version: 2
 jobs:
-  build-and-test:
-    executor:
-      name: node/default
+  build:
+    branches:
+      ignore:
+        - gh-pages
+    docker:
+      - image: circleci/node:latest
+    environment:
+      - SOURCE_BRANCH: master
+      - TARGET_BRANCH: gh-pages
+    filters:
+      branches:
+        only: master
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "9b:31:1a:df:0e:68:d6:47:16:31:14:d9:48:13:9b:36"
       - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install
-            - run: npm test
-workflows:
-    build-and-test:
-      jobs:
-        - build-and-test
+      - restore_cache:
+          keys:
+            - dependencies-
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-
+      - run:
+          name: Install dependencies
+          command: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies-
+      - run:
+          name: Build application
+          command: yarn build
+
+      - run:
+          name: Run deploy scripts
+          command: ../scripts/deploy.sh
