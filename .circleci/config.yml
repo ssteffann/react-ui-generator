@@ -8,7 +8,6 @@ jobs:
       - image: circleci/node:latest
     environment:
       - SOURCE_BRANCH: master
-      - TARGET_BRANCH: gh-pages
     filters:
       branches:
         only: master
@@ -22,24 +21,28 @@ jobs:
       - run:
           name: Install dependencies
           command: yarn install
-      - run:
-          name: Install and configure dependencies
-          command: yarn global add gh-pages@2.0.1
+
       - save_cache:
           paths:
             - node_modules
           key: dependencies-
-
-      - run:
-          name: Build Application
-          command: yarn build
 
       - add_ssh_keys:
           fingerprints:
             - "73:ba:91:9a:31:bb:37:d7:ca:cc:ae:e2:ad:80:44:9a"
 
 
-      - run:
-          name: Deploy docs to gh-pages branch
-          command: gh-pages --dotfiles --message "[skip ci] Updates" --dist build/
+      - deploy:
+          name: Deploy
+          command: |
+            if [ $CIRCLE_BRANCH == $SOURCE_BRANCH ]; then
+              yarn build
+
+              cp -r build/. docs/.
+
+              git add -A
+              git commit -m "Automated deployment to GitHub Pages: ${CIRCLE_SHA1}" --allow-empty
+
+              git push origin $SOURCE_BRANCH
+            fi
 
