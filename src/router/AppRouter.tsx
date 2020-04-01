@@ -27,7 +27,6 @@ class AppRouter extends React.Component<Props> {
         })
     };
 
-
     render() {
         const { pages } = this.props;
 
